@@ -1,9 +1,14 @@
 <html>
   <head>
-    
-    {{ $css := resources.Get "css/style.css" | resources.PostCSS }}
+    {{ if .Site.IsServer }}
+        {{ $css := resources.Get "css/style.css" | resources.PostCSS }}
+        <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+    {{ else }}
+        {{ $css := resources.Get "css/style.css" | resources.PostCSS | minify }}
+        <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+    {{ end }}
 
-    <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+
     
   </head>
   <body>
